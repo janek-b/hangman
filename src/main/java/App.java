@@ -4,9 +4,7 @@ import java.io.Console;
 public class App {
   public static void main(String[] args) {
     Console console = System.console();
-    Random randomGenerator = new Random();
-    int wordCount = 23;
-    Game newGame = new Game(randomGenerator.nextInt(wordCount));
+    Game newGame = startNewGame();
     boolean gameNotOver = true;
     Integer guessLimit = 5;
 
@@ -23,11 +21,11 @@ public class App {
       }
 
       if (newGame.getHiddenWord().indexOf('_') == -1) {
+        printMonster(newGame.wrongGuesses(), guessLimit);
         System.out.println("\nYou Won!\tThe word was:\t" + newGame.getWord() + "!\n");
         String playAgain = console.readLine("Play again?\n");
         if (playAgain.equals("yes")) {
-          console.flush();
-          newGame = new Game(randomGenerator.nextInt(wordCount));
+          newGame = startNewGame();
         } else if (playAgain.equals("no")) {
           gameNotOver = false;
         }
@@ -38,14 +36,39 @@ public class App {
         System.out.println("You Lost!\tThe word was:\t" + newGame.getWord() + "!");
         String playAgain = console.readLine("Play again?\t");
         if (playAgain.equals("yes")) {
-          console.flush();
-          newGame = new Game(randomGenerator.nextInt(wordCount));
+          newGame = startNewGame();
         } else if (playAgain.equals("no")) {
           gameNotOver = false;
         }
       }
 
     }
+  }
+
+  public static Game startNewGame() {
+    Console console = System.console();
+    Random randomGenerator = new Random();
+    System.out.print("\033[H\033[2J");
+    System.out.println("___   ___   ________   ___   __    _______    ___ __ __   ________   ___   __ ");
+    System.out.println("/__/\\ /__/\\ /_______/\\ /__/\\ /__/\\ /______/\\  /__//_//_/\\ /_______/\\ /__/\\ /__/\\");
+    System.out.println("\\::\\ \\\\  \\ \\\\::: _  \\ \\\\::\\_\\\\  \\ \\\\::::__\\/__\\::\\| \\| \\ \\\\::: _  \\ \\\\::\\_\\\\  \\ \\");
+    System.out.println("\\::\\/_\\ .\\ \\\\::(_)  \\ \\\\:. `-\\  \\ \\\\:\\ /____/\\\\:.      \\ \\\\::(_)  \\ \\\\:. `-\\  \\ \\");
+    System.out.println(" \\:: ___::\\ \\\\:: __  \\ \\\\:. _    \\ \\\\:\\\\_  _\\/ \\:.\\-/\\  \\ \\\\:: __  \\ \\\\:. _    \\ \\");
+    System.out.println("  \\: \\ \\\\::\\ \\\\:.\\ \\  \\ \\\\. \\`-\\  \\ \\\\:\\_\\ \\ \\  \\. \\  \\  \\ \\\\:.\\ \\  \\ \\\\. \\`-\\  \\ \\");
+    System.out.println("   \\__\\/ \\::\\/ \\__\\/\\__\\/ \\__\\/ \\__\\/ \\_____\\/   \\__\\/ \\__\\/ \\__\\/\\__\\/ \\__\\/ \\__\\/");
+    String stringDifficulty = console.readLine("\nChoose difficulty: Easy, Medium, Hard\n").toLowerCase();
+    int intDiff = 0;
+    switch (stringDifficulty) {
+      case "easy": intDiff = 0;
+        break;
+      case "medium": intDiff = 1;
+        break;
+      case "hard": intDiff = 2;
+        break;
+    }
+    int wordCount = Game.getWordCount(intDiff);
+    Game newGame = new Game(intDiff, randomGenerator.nextInt(wordCount));
+    return newGame;
   }
 
   public static void printMonster(int guesses, int limit) {
