@@ -14,7 +14,7 @@ public class GameTest {
   @Test
   public void getWord_returnsAnInstanceOfString_true() {
     Game testGame = new Game(0);
-    assertEquals(true, testGame.getWord() instanceof String);
+    assertEquals(true, testGame.getHiddenWord() instanceof String);
   }
 
   @Test
@@ -31,14 +31,14 @@ public class GameTest {
   @Test
   public void getWord_returnsUnderscoresWhenNoGuesses() {
     Game testGame = new Game(0);
-    assertEquals("_ _ _ _ _", testGame.getWord());
+    assertEquals("_ _ _ _ _", testGame.getHiddenWord());
   }
 
   @Test
   public void getWord_revealsLetterWhenGuessed() {
     Game testGame = new Game(0);
     testGame.guessLetter('a');
-    assertEquals("a _ _ _ _", testGame.getWord());
+    assertEquals("a _ _ _ _", testGame.getHiddenWord());
   }
 
   @Test
@@ -48,6 +48,33 @@ public class GameTest {
     expectedGuessList.add('a');
     testGame.guessLetter('a');
     testGame.guessLetter('a');
+    assertEquals(expectedGuessList, testGame.getLettersGuessed());
+  }
+
+  @Test
+  public void wrongGuesses_returnsOneAfterWrongGuess_1() {
+    Game testGame = new Game(0);
+    testGame.guessLetter('u');
+    assertEquals(1, testGame.wrongGuesses());
+  }
+
+  @Test
+  public void wrongGuesses_returnsTheeAfterWrongGuesses_3() {
+    Game testGame = new Game(0);
+    testGame.guessLetter('u');
+    testGame.guessLetter('t');
+    testGame.guessLetter('r');
+    assertEquals(3, testGame.wrongGuesses());
+  }
+
+  @Test
+  public void guessLetter_doesNotAddNumberOrSpecialChar() {
+    Game testGame = new Game(0);
+    List<Character> expectedGuessList = new ArrayList<Character>();
+    expectedGuessList.add('a');
+    testGame.guessLetter('a');
+    testGame.guessLetter('9');
+    testGame.guessLetter('-');
     assertEquals(expectedGuessList, testGame.getLettersGuessed());
   }
 }

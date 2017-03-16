@@ -1,8 +1,10 @@
 import java.util.List;
 import java.util.ArrayList;
+import java.util.regex.Pattern;
+import java.util.regex.Matcher;
 
 public class Game {
-  private String[] allWords = {"apple"};
+  private String[] allWords = {"apple", "banana", "java", "unittest", "epicodus", "train", "lemur", "photograph", "antidisestablishmentarianism", "juneau", "notebook", "computer", "skyscraper", "bicycle", "hat", "at", "headphones", "keyboard", "bottle", "sunshine", "raccoon", "apartment", "string"};
   private String word;
   private List<Character> lettersGuessed = new ArrayList<Character>();
 
@@ -11,8 +13,10 @@ public class Game {
   }
 
   public void guessLetter(char letter) {
-    if (!lettersGuessed.contains(letter)) {
-      lettersGuessed.add(letter);
+    if(!Pattern.matches("[^a-z]", Character.toString(letter))) {
+      if (!lettersGuessed.contains(letter)) {
+        lettersGuessed.add(letter);
+      }
     }
   }
 
@@ -21,6 +25,10 @@ public class Game {
   }
 
   public String getWord() {
+    return word;
+  }
+
+  public String getHiddenWord() {
     String revealedWord = "";
     for (int i = 0; i < word.length(); i++) {
       if (lettersGuessed.contains(word.charAt(i))) {
@@ -30,5 +38,15 @@ public class Game {
       }
     }
     return revealedWord.trim();
+  }
+
+  public int wrongGuesses() {
+    int wrongGuessCount = 0;
+    for (Character guess : lettersGuessed) {
+      if (word.indexOf(guess) == -1) {
+        wrongGuessCount++;
+      }
+    }
+    return wrongGuessCount;
   }
 }
