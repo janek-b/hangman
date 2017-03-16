@@ -4,12 +4,12 @@
 | behavior | input example | output example |
 |--------|----------|----------|
 | start a new game | game | game |
+| print letters guessed | guess: "a" | guessed: "a" |
 | print game word with no guessed letters | no guesses | "_ _ _ _ _" |
-| print letters guessed | guess: "" | guessed: "" |
 | guess a letter and show updated letters guessed | guess: "a" | guessed: "a" |
 | guess a letter and reveal letter in word | guess: "a" | "a _ _ _ _" |
 | letters cannot be guessed twice | guess: "a" | "a already guessed. Try again" |
-| when all letters are guessed game ends | guess: "p" | "a p p l e" "You Won" |
+
 
 
 
